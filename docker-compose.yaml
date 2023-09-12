@@ -1,0 +1,15 @@
+services:
+  postgres:
+    container_name: udacity-crm-db
+    image: "postgres:15"
+    environment:
+      POSTGRES_USER: goclass
+      POSTGRES_PASSWORD: goclass
+      POSTGRES_DB: udacity-crm
+      PGDATA: "/data/postgres"
+    volumes:
+       - ./postgres:/data/postgres
+       - ./initdb.d:/docker-entrypoint-initdb.d
+    ports:
+      - "15432:5432"
+    restart: unless-stopped
