@@ -26,8 +26,7 @@ func InitData(db *bun.DB, ctx context.Context) {
 
 	if rc == 0 {
 		for _, customer := range initialCustomerData {
-			sqlr, err := db.NewInsert().Model(&customer).Exec(ctx)
-			println(sqlr)
+			_, err := db.NewInsert().Model(&customer).Exec(ctx)
 			if err != nil {
 				panic(err)
 			}
