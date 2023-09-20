@@ -1,0 +1,99 @@
+basePath: /
+definitions:
+  model.Customer:
+    properties:
+      contacted:
+        type: boolean
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      phone:
+        type: string
+      role:
+        type: string
+    type: object
+host: localhost:3000
+info:
+  contact:
+    email: support@gocrm.io
+    name: API Support
+    url: http://gocrm.io/support
+  description: This is the CRM API for the Udacity Go Language Course
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  title: Udacity Go Class CRM API
+  version: "1.0"
+paths:
+  /customers:
+    get:
+      operationId: get-customer-by-id
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Customer'
+      summary: get the Customer identified by ID in the database
+    post:
+      operationId: create-customer
+      parameters:
+      - description: customer data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.Customer'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Customer'
+        "400":
+          description: Bad Request
+      summary: Add a customer to the database
+  /customers/{id}:
+    delete:
+      operationId: delete-customer-by-id
+      parameters:
+      - description: customer ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Customer'
+        "404":
+          description: Not Found
+      summary: delete a customer item by ID
+    patch:
+      operationId: update-customer-by-id
+      parameters:
+      - description: customer data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.Customer'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Customer'
+        "404":
+          description: Not Found
+      summary: update a customer item by ID
+swagger: "2.0"
