@@ -71,11 +71,12 @@ func BuildAddCustomerHandler(db *db.DB, ctx context.Context) func(http.ResponseW
 		// Encode the request body into a Golang value so that we can work with the data
 		json.Unmarshal(reqBody, &customer)
 		if _, ok := db.AddCustomer(ctx, customer); ok {
+			w.Header().Set("Content-Type", "application/json")
 			w.WriteHeader(http.StatusCreated)
+			json.NewEncoder(w).Encode(customer)
 		} else {
 			w.WriteHeader(http.StatusConflict)
 		}
-		json.NewEncoder(w).Encode(customer)
 	}
 }
 

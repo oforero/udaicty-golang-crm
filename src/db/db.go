@@ -2,6 +2,7 @@ package db
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
 	"udacity_crm/db/sqlite"
 	"udacity_crm/model"
@@ -43,14 +44,13 @@ func (db *DB) GetCustomerById(ctx context.Context, id int64) (*model.Customer, b
 		Model(customer).
 		Where("id = ?", id).
 		Scan(ctx)
-	if err != nil {
+	if err != nil && err != sql.ErrNoRows {
 		panic(err)
 	}
-	if customer != nil {
-		return customer, true
+	if err == sql.ErrNoRows {
+		return nil, false
 	}
-	return nil, false
-
+	return customer, true
 }
 
 func (db *DB) AddCustomer(ctx context.Context, customer *model.Customer) (*model.Customer, bool) {
@@ -87,6 +87,6 @@ func (db *DB) DeleteCustomerById(ctx context.Context, id int64) (*model.Customer
 	if err != nil || sqlErr != nil || rows == 0 {
 		return nil, false
 	}
-	return customer, false
+	return customer, true
 
 }

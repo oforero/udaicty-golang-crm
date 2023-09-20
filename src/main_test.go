@@ -2,30 +2,32 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"strings"
 	"sync"
 	"testing"
-	"udacity_crm/db/sqlite"
+	"udacity_crm/db"
 	"udacity_crm/model"
+
+	"github.com/gorilla/mux"
+	"github.com/uptrace/bun"
 )
 
 var runOnce sync.Once
+var router *mux.Router
 
 func initDb() {
 	runOnce.Do(
 		func() {
 			ctx := context.Background()
-			dbServer := sqlite.NewDB()
+			dbServer := db.NewSqliteDB()
 
-			model.InitModel(dbServer, ctx)
-			model.InitData(dbServer, ctx)
+			bunDB := bun.DB(*dbServer)
+			model.InitModel(&bunDB, ctx)
+			model.InitData(&bunDB, ctx)
 
-			setupRoutesWithHandlers(dbServer, ctx)
-			fmt.Println("Initialized")
-			fmt.Println(getCustomer)
+			router = setupRoutesWithHandlers(dbServer, ctx)
 		},
 	)
 }
@@ -41,8 +43,7 @@ func TestGetCustomersHandler(t *testing.T) {
 	}
 
 	rr := httptest.NewRecorder()
-	fmt.Println(handler)
-	handler.Handler.ServeHTTP(rr, req)
+	router.ServeHTTP(rr, req)
 
 	// Checks for 200 status code
 	if status := rr.Code; status != http.StatusOK {
@@ -60,7 +61,7 @@ func TestGetCustomersHandler(t *testing.T) {
 // Tests happy path of submitting a well-formed POST /customers request
 func TestAddCustomerHandler(t *testing.T) {
 	initDb()
-	handler := getCustomerById
+	handler := addCustomer
 
 	requestBody := strings.NewReader(`
 		{
@@ -79,7 +80,7 @@ func TestAddCustomerHandler(t *testing.T) {
 	}
 
 	rr := httptest.NewRecorder()
-	handler.Handler.ServeHTTP(rr, req)
+	router.ServeHTTP(rr, req)
 
 	// Checks for 201 status code
 	if status := rr.Code; status != http.StatusCreated {
@@ -95,17 +96,16 @@ func TestAddCustomerHandler(t *testing.T) {
 }
 
 // Tests unhappy path of deleting a user that doesn't exist
-func estDeleteCustomerHandler(t *testing.T) {
+func TestDeleteInexistingCustomerHandler(t *testing.T) {
 	initDb()
-	handler := getCustomers
-	req, err := http.NewRequest("DELETE", "/customers/e7847fee-3a0e-455e-b151-519bdb9851c7", nil)
+	req, err := http.NewRequest("DELETE", "/customers/8", nil)
 
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	rr := httptest.NewRecorder()
-	handler.Handler.ServeHTTP(rr, req)
+	router.ServeHTTP(rr, req)
 
 	// Checks for 404 status code
 	if status := rr.Code; status != http.StatusNotFound {
@@ -114,18 +114,36 @@ func estDeleteCustomerHandler(t *testing.T) {
 	}
 }
 
-// Tests unhappy path of getting a user that doesn't exist
-func estGetCustomerHandler(t *testing.T) {
+// Tests unhappy path of deleting a user that doesn't exist
+func TestDeleteExistingCustomerHandler(t *testing.T) {
 	initDb()
-	handler := getCustomers
-	req, err := http.NewRequest("GET", "/customers/e7847fee-3a0e-455e-b151-519bdb9851c7", nil)
+	req, err := http.NewRequest("DELETE", "/customers/2", nil)
 
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	rr := httptest.NewRecorder()
-	handler.Handler.ServeHTTP(rr, req)
+	router.ServeHTTP(rr, req)
+
+	// Checks for 200 status code
+	if status := rr.Code; status != http.StatusOK {
+		t.Errorf("deleteCustomer returned wrong status code: got %v want %v",
+			status, http.StatusOK)
+	}
+}
+
+// Tests unhappy path of getting a user that doesn't exist
+func TestGetCustomerHandler(t *testing.T) {
+	initDb()
+	req, err := http.NewRequest("GET", "/customers/8", nil)
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	rr := httptest.NewRecorder()
+	router.ServeHTTP(rr, req)
 
 	// Checks for 404 status code
 	if status := rr.Code; status != http.StatusNotFound {

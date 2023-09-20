@@ -132,7 +132,7 @@ func setupRoutesWithHandlers(dbServer *db.DB, ctx context.Context) *mux.Router {
 	deleteCustomer.Handler = backend.BuildDeleteCustomerHandler(dbServer, ctx)
 
 	// addCustomer.Handler = backend.NewElemenbByIdHandler(fromDbAddCustomer)
-	routes := []backend.Route{root, css, scripts, swagger, getCustomerById, addCustomer, updateCustomer, deleteCustomer}
+	routes := []backend.Route{root, css, scripts, swagger, getCustomers, getCustomerById, addCustomer, updateCustomer, deleteCustomer}
 
 	r := backend.BuildRouter(routes)
 
