@@ -15,9 +15,12 @@ The application is structured in various packages:
 
 ## How to run
 
-To be able to run the application from the source code, the first step is to install all the required libraries:
+The following commands assume you are trying to run the application in a terminal, from the `src` subfolder.
+
+The first step is to install all the required libraries:
 
 ```
+$ cd src
 $ go get -u -v -f all
 ```
 
