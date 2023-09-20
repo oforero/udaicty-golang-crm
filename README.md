@@ -17,6 +17,25 @@ The application is structured in various packages:
 
 The following commands assume you are trying to run the application in a terminal, from the `src` subfolder.
 
+
+### Running using the binary
+
+The repository includes binaries for Windows and MacOS, the binary should run from the `src` subfolder.
+
+To run the application in windows, use the `crm-amd64.exe` file:
+
+```
+> bin\crm-amd64.exe
+```
+
+To run the application in windows, use the `crm-macOS` file:
+
+```
+> bin/crm-macOS
+```
+
+### Running from source code
+
 The first step is to install all the required libraries:
 
 ```
