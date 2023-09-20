@@ -4,9 +4,9 @@ go 1.21.1
 
 require (
 	github.com/swaggo/swag v1.16.2
-	github.com/uptrace/bun v1.1.15
-	github.com/uptrace/bun/dialect/sqlitedialect v1.1.15
-	github.com/uptrace/bun/driver/sqliteshim v1.1.15
+	github.com/uptrace/bun v1.1.16
+	github.com/uptrace/bun/dialect/sqlitedialect v1.1.16
+	github.com/uptrace/bun/driver/sqliteshim v1.1.16
 )
 
 require (

@@ -77,10 +77,16 @@ github.com/tmthrgd/go-hex v0.0.0-20190904060850-447a3041c3bc h1:9lRDQMhESg+zvGYm
 github.com/tmthrgd/go-hex v0.0.0-20190904060850-447a3041c3bc/go.mod h1:bciPuU6GHm1iF1pBvUfxfsH0Wmnc2VbpgvbI9ZWuIRs=
 github.com/uptrace/bun v1.1.15 h1:uxLNIo1VN8pkJ8rykwPBd9qYg4NDTvjHIintnwoQ3QY=
 github.com/uptrace/bun v1.1.15/go.mod h1:7HnsMRRvpLFUcquJxp22JO8PsWKpFQO/gNXqqsuGWg8=
+github.com/uptrace/bun v1.1.16 h1:cn9cgEMFwcyYRsQLfxCRMUxyK1WaHwOVrR3TvzEFZ/A=
+github.com/uptrace/bun v1.1.16/go.mod h1:7HnsMRRvpLFUcquJxp22JO8PsWKpFQO/gNXqqsuGWg8=
 github.com/uptrace/bun/dialect/sqlitedialect v1.1.15 h1:uZqBNm4iJnDO4mZ1UXUzGqMhjxB5SAsafMF58s2gmkQ=
 github.com/uptrace/bun/dialect/sqlitedialect v1.1.15/go.mod h1:ymLR6ladQrWS7eYTX45+lTIK7vocXiE3jXNBxUZMJlU=
+github.com/uptrace/bun/dialect/sqlitedialect v1.1.16 h1:gbc9BP/e4sNOB9VBj+Si46dpOz2oktmZPidkda92GYY=
+github.com/uptrace/bun/dialect/sqlitedialect v1.1.16/go.mod h1:YNezpK7fIn5Wa2WGmTCZ/nEyiswcXmuT4iNWADeL1x4=
 github.com/uptrace/bun/driver/sqliteshim v1.1.15 h1:kIbANLgiThIBWHVUXs9fXDbgXnr5C+a98T5TKY2h1Tk=
 github.com/uptrace/bun/driver/sqliteshim v1.1.15/go.mod h1:7fJaPqaiSvnWytQcMwVv1ZcjUJh7tGDonO/zq3O6RRI=
+github.com/uptrace/bun/driver/sqliteshim v1.1.16 h1:dhXrdXQegGSM+Jk07s9p1Y575DMhCKl7wBkss8kgM+8=
+github.com/uptrace/bun/driver/sqliteshim v1.1.16/go.mod h1:7fJaPqaiSvnWytQcMwVv1ZcjUJh7tGDonO/zq3O6RRI=
 github.com/vmihailenco/msgpack/v5 v5.3.5 h1:5gO0H1iULLWGhs2H5tbAHIZTV8/cYafcFOr9znI5mJU=
 github.com/vmihailenco/msgpack/v5 v5.3.5/go.mod h1:7xyJ9e+0+9SaZT0Wt1RGleJXzli6Q/V5KbhBonMG9jc=
 github.com/vmihailenco/tagparser/v2 v2.0.0 h1:y09buUbR+b5aycVFQs/g70pqKVZNBmxwAhO7/IwNM9g=

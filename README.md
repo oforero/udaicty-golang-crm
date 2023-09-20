@@ -15,6 +15,14 @@ The application is structured in various packages:
 
 ## How to run
 
+To be able to run the application from the source code, the first step is to install all the required libraries:
+
+```
+$ go get -u -v -f all
+```
+
+This command will install all the dependencies to be able to build and run the application.
+
 Tests can be run in the usual GO way:
 
 ```
