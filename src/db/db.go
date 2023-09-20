@@ -2,14 +2,30 @@ package db
 
 import (
 	"context"
+	"fmt"
+	"udacity_crm/db/sqlite"
 	"udacity_crm/model"
 
 	"github.com/uptrace/bun"
 )
 
-func GetAllCustomers(db *bun.DB, ctx context.Context) []model.Customer {
+type DB bun.DB
+
+func NewSqliteDB() *DB {
+	sqlite := sqlite.NewDB()
+	return (*DB)(sqlite)
+}
+
+type CustomerDB interface {
+	GetAllCustomers(ctx context.Context) []model.Customer
+	GetCustomerById(ctx context.Context, id int64) model.Customer
+	AddCustomer(ctx context.Context, customer *model.Customer) *model.Customer
+}
+
+func (db *DB) GetAllCustomers(ctx context.Context) []model.Customer {
+	bunDB := bun.DB(*db)
 	var customers []model.Customer
-	err := db.NewSelect().
+	err := bunDB.NewSelect().
 		Model(&customers).
 		OrderExpr("id ASC").
 		Scan(ctx)
@@ -19,26 +35,58 @@ func GetAllCustomers(db *bun.DB, ctx context.Context) []model.Customer {
 	return customers
 }
 
-func GetCustomerById(db *bun.DB, ctx context.Context, id int64) model.Customer {
-	// customer := new(model.Customer)
-	var customers []model.Customer
-	err := db.NewSelect().
-		Model(&customers).
-		// Model(customer).
-		// Limit(1).
-		// Where("id = ?", id).
+func (db *DB) GetCustomerById(ctx context.Context, id int64) (*model.Customer, bool) {
+	bunDB := bun.DB(*db)
+	var customer *model.Customer = new(model.Customer)
+
+	err := bunDB.NewSelect().
+		Model(customer).
+		Where("id = ?", id).
 		Scan(ctx)
 	if err != nil {
 		panic(err)
 	}
-	return customers[0]
+	if customer != nil {
+		return customer, true
+	}
+	return nil, false
+
 }
 
-func AddCustomer(db *bun.DB, ctx context.Context, customer *model.Customer) *model.Customer {
-	sqlr, err := db.NewInsert().Model(customer).Exec(ctx)
+func (db *DB) AddCustomer(ctx context.Context, customer *model.Customer) (*model.Customer, bool) {
+	bunDB := bun.DB(*db)
+	sqlr, err := bunDB.NewInsert().Model(customer).Exec(ctx)
 	println(sqlr)
 	if err != nil {
-		panic(err)
+		return nil, false
 	}
-	return customer
+	return customer, true
+}
+
+func (db *DB) UpdateCustomer(ctx context.Context, customer *model.Customer) (*model.Customer, bool) {
+	bunDB := bun.DB(*db)
+	sqlr, err := bunDB.NewUpdate().Model(customer).WherePK().Exec(ctx)
+	fmt.Printf("Updating result %v/n", sqlr)
+	if err != nil {
+		return nil, false
+	}
+	return customer, true
+}
+
+func (db *DB) DeleteCustomerById(ctx context.Context, id int64) (*model.Customer, bool) {
+	bunDB := bun.DB(*db)
+	var customer *model.Customer = new(model.Customer)
+	customer.ID = id
+
+	sqlr, err := bunDB.NewDelete().
+		Model(customer).
+		WherePK().
+		Exec(ctx)
+
+	rows, sqlErr := sqlr.RowsAffected()
+	if err != nil || sqlErr != nil || rows == 0 {
+		return nil, false
+	}
+	return customer, false
+
 }
