@@ -20,6 +20,9 @@
 # Go workspace file
 go.work
 
+# Go Debug Folders
+__debug*
+
 # Ignore Postgresql Data Folder
 postgres
 
