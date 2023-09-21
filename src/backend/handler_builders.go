@@ -67,7 +67,7 @@ func BuildGetCustomerByIdHandler(db *db.DB, ctx context.Context) func(http.Respo
 func BuildAddCustomerHandler(db *db.DB, ctx context.Context) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		customer := new(model.Customer)
-		// Read the HTTP request body
+		// Read the HTTP request body (io/ioutil is deprecated, hence I used io.ReadAll)
 		reqBody, _ := io.ReadAll(r.Body)
 		// Encode the request body into a Golang value so that we can work with the data
 		json.Unmarshal(reqBody, &customer)
@@ -98,7 +98,7 @@ func BuildUpdateCustomerHandler(db *db.DB, ctx context.Context) func(http.Respon
 			return
 		}
 		customer := new(model.Customer)
-		// Read the HTTP request body
+		// Read the HTTP request body (io/ioutil is deprecated, hence I used io.ReadAll)
 		reqBody, ioErr := io.ReadAll(r.Body)
 		if ioErr != nil {
 			w.WriteHeader(http.StatusBadRequest)
