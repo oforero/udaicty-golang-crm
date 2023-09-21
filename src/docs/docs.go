@@ -28,13 +28,15 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
-                "summary": "get the Customer identified by ID in the database",
-                "operationId": "get-customer-by-id",
+                "summary": "get all customers in the database",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.Customer"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.Customer"
+                            }
                         }
                     }
                 }
@@ -70,6 +72,30 @@ const docTemplate = `{
             }
         },
         "/customers/{id}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "get the Customer identified by ID in the database",
+                "operationId": "get-customer-by-id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Customer id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Customer"
+                        }
+                    }
+                }
+            },
             "delete": {
                 "produces": [
                     "application/json"

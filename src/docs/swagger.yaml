@@ -30,15 +30,16 @@ info:
 paths:
   /customers:
     get:
-      operationId: get-customer-by-id
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.Customer'
-      summary: get the Customer identified by ID in the database
+            items:
+              $ref: '#/definitions/model.Customer'
+            type: array
+      summary: get all customers in the database
     post:
       operationId: create-customer
       parameters:
@@ -77,6 +78,22 @@ paths:
         "404":
           description: Not Found
       summary: delete a customer item by ID
+    get:
+      operationId: get-customer-by-id
+      parameters:
+      - description: Customer id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Customer'
+      summary: get the Customer identified by ID in the database
     patch:
       operationId: update-customer-by-id
       parameters:

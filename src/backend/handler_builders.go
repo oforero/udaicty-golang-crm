@@ -29,9 +29,10 @@ func BuildGetAllCustomersHandler(db *db.DB, ctx context.Context) func(http.Respo
 
 // @Summary get the Customer identified by ID in the database
 // @ID get-customer-by-id
+// @Param id path string true "Customer id"
 // @Produce json
 // @Success 200 {object} model.Customer
-// @Router /customers [get]
+// @Router /customers/{id} [get]
 func BuildGetCustomerByIdHandler(db *db.DB, ctx context.Context) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
