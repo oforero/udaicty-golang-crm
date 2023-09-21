@@ -29,9 +29,10 @@ func BuildGetAllCustomersHandler(db *db.DB, ctx context.Context) func(http.Respo
 
 // @Summary get the Customer identified by ID in the database
 // @ID get-customer-by-id
-// @Param id path string true "Customer id"
+// @Param id path string true "model.Customer id"
 // @Produce json
 // @Success 200 {object} model.Customer
+// @Failure 404 {object} nil
 // @Router /customers/{id} [get]
 func BuildGetCustomerByIdHandler(db *db.DB, ctx context.Context) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -86,7 +87,7 @@ func BuildAddCustomerHandler(db *db.DB, ctx context.Context) func(http.ResponseW
 // @Produce json
 // @Param data body model.Customer true "customer data"
 // @Success 200 {object} model.Customer
-// @Failure 404
+// @Failure 404 {object} nil
 // @Router /customers/{id} [PATCH]
 func BuildUpdateCustomerHandler(db *db.DB, ctx context.Context) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -127,7 +128,7 @@ func BuildUpdateCustomerHandler(db *db.DB, ctx context.Context) func(http.Respon
 // @Produce json
 // @Param id path string true "customer ID"
 // @Success 200 {object} model.Customer
-// @Failure 404
+// @Failure 404 {object} nil
 // @Router /customers/{id} [delete]
 func BuildDeleteCustomerHandler(db *db.DB, ctx context.Context) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {

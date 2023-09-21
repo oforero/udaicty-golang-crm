@@ -81,7 +81,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Customer id",
+                        "description": "model.Customer id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -93,6 +93,9 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/model.Customer"
                         }
+                    },
+                    "404": {
+                        "description": "Not Found"
                     }
                 }
             },

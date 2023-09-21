@@ -81,7 +81,7 @@ paths:
     get:
       operationId: get-customer-by-id
       parameters:
-      - description: Customer id
+      - description: model.Customer id
         in: path
         name: id
         required: true
@@ -93,6 +93,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/model.Customer'
+        "404":
+          description: Not Found
       summary: get the Customer identified by ID in the database
     patch:
       operationId: update-customer-by-id
